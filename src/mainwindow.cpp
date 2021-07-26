@@ -218,12 +218,18 @@ namespace Caneda
     {
         DocumentViewManager *manager = DocumentViewManager::instance();
 
+        Settings *settings = Settings::instance();
+
+        QString loc = settings->currentValue("file/lastLocation").toString();
+
         if(fileName.isEmpty()) {
-            fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString(),
+            fileName = QFileDialog::getOpenFileName(this, tr("Open File"), loc,
                                                     manager->fileNameFilters().join(QString(";;")));
         }
 
         if(!fileName.isEmpty()) {
+            loc = QFileInfo(fileName).absoluteDir().absolutePath();
+            settings->setCurrentValue("file/lastLocation", loc);
             manager->openFile(fileName);
         }
     }
@@ -314,8 +320,11 @@ namespace Caneda
             return;
         }
 
+        Settings *settings = Settings::instance();
+
         // Create custom dialog with default suffix
-        QFileDialog dialog(this, tr("Save File"));
+        QFileDialog dialog(this, tr("Save File"), settings->currentValue("file/lastLocation").toString());
+
         dialog.setFileMode(QFileDialog::AnyFile);
         dialog.setAcceptMode(QFileDialog::AcceptSave);
         dialog.setNameFilters(manager->currentDocument()->context()->fileNameFilters());

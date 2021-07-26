@@ -28,6 +28,7 @@
 #include <QSettings>
 #include <QSize>
 #include <QVariant>
+#include <QStandardPaths>
 
 namespace Caneda
 {
@@ -112,7 +113,7 @@ namespace Caneda
 
         defaultSettings["shortcuts/zoomFitInBest"] = QVariant(QKeySequence(tr(".")));
         defaultSettings["shortcuts/zoomOriginal"] = QVariant(QKeySequence(tr("Home")));
-        defaultSettings["shortcuts/zoomIn"] = QVariant(QKeySequence(tr("+")));
+        defaultSettings["shortcuts/zoomIn"] = QVariant(QKeySequence(tr("=")));
         defaultSettings["shortcuts/zoomOut"] = QVariant(QKeySequence(tr("-")));
         defaultSettings["shortcuts/splitHorizontal"] = QVariant(QKeySequence(tr("Ctrl+Shift+L")));
         defaultSettings["shortcuts/splitVertical"] = QVariant(QKeySequence(tr("Ctrl+Shift+T")));
@@ -139,6 +140,8 @@ namespace Caneda
         defaultSettings["shortcuts/showFullScreen"] = QVariant(QKeySequence(tr("Ctrl+Shift+F")));
         defaultSettings["shortcuts/settings"] = QVariant(QKeySequence(QKeySequence::Preferences));
         defaultSettings["shortcuts/helpIndex"] = QVariant(QKeySequence(QKeySequence::HelpContents));
+
+        defaultSettings["file/lastLocation"] = QVariant(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
         currentSettings = defaultSettings;
     }

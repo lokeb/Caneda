@@ -90,7 +90,7 @@ namespace Caneda
 
         // Signals/slots connections
         connect(ui.buttons, SIGNAL(accepted()), this, SLOT(applySettings()));
-        connect(ui.buttons, SIGNAL(rejected()), this, SLOT(reject()));
+        connect(ui.buttons, SIGNAL(rejected()), this, SLOT(rejectSettings()));
         connect(ui.buttons, SIGNAL(clicked(QAbstractButton*)), this, SLOT(restoreDefaults(QAbstractButton*)));
         connect(ui.pagesList, SIGNAL(currentRowChanged(int)), this, SLOT(changePage(int)));
 
@@ -131,6 +131,8 @@ namespace Caneda
         connect(ui.buttonData, SIGNAL(clicked()), SLOT(colorButtonDialog()));
         connect(ui.buttonComment, SIGNAL(clicked()), SLOT(colorButtonDialog()));
         connect(ui.buttonSystem, SIGNAL(clicked()), SLOT(colorButtonDialog()));
+
+        restoreGeometry(settings->currentValue("gui/settings/geometry").toByteArray());
     }
 
     /*!
@@ -353,6 +355,8 @@ namespace Caneda
         // Save settings and accept dialog
         settings->save();
 
+        saveWindowSettings();
+
         accept();
     }
 
@@ -422,6 +426,18 @@ namespace Caneda
         setButtonColor(ui.buttonData, map["gui/hdl/data"].value<QColor>());
         setButtonColor(ui.buttonComment, map["gui/hdl/comment"].value<QColor>());
         setButtonColor(ui.buttonSystem, map["gui/hdl/system"].value<QColor>());
+    }
+
+    //! \brief Save Window geometry
+    void SettingsDialog::saveWindowSettings() {
+        Settings *settings = Settings::instance();
+        settings->setCurrentValue("gui/settings/geometry", saveGeometry());
+    }
+
+    //! \brief Reject Settings
+    void SettingsDialog::rejectSettings() {
+        saveWindowSettings();
+        reject();
     }
 
 } // namespace Caneda

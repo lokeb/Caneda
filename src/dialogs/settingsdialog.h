@@ -57,9 +57,11 @@ namespace Caneda
 
         void restoreDefaults(QAbstractButton *button);
         void applySettings();
+        void rejectSettings();
 
     private:
         void updateWidgets(QMap<QString, QVariant> map);
+        void saveWindowSettings();
 
         Ui::SettingsDialog ui;
     };
